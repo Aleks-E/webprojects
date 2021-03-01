@@ -1,0 +1,21 @@
+{% load static %}
+<body>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</body>
+
+<form action="{% url 'WishList' %}" method="get" class="back-to-wishlist">{% csrf_token %}
+    <button type="submit">Назад</button>
+</form>
+
+{% if wish.image %}
+<div class="wishdetails-image-out"><img src="{{ wish.image.url }}"></div>
+{% endif %}
+<div class="wishdetails">
+    <div class="wishdetails-name-out">{{ wish.name }}</div>
+    <div class="wishdetails-price-out">Цена: {{ wish.price }} руб.</div>
+    <div class="wishdetails-ref-out"><a href="{{ wish.ref }}">Ссылка</a></div>
+    <div class="wishdetails-note-out"><output>{{ wish.note }}</output></div>
+    <form action="{% url 'WishEdit' wish.id %}">
+        <div><button>Редактировать</button></div>
+    </form>
+</div>

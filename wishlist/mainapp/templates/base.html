@@ -1,0 +1,31 @@
+{% load static %}
+<body>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</body>
+
+<div class="wish-create">
+    <div class="wish-title">Добавить желание</div>
+    <form action="{% url 'WishCreate' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div><input type="text" required placeholder="Наименование" name="wish_name" class="wish-name"></div>
+        <div><input type="number" required placeholder="Цена" min="0" name="wish_price" class="wish-price"><label class="wish-price-label">Цена, руб.</label></div>
+        <div><input type="text" required placeholder="Ссылка" name="wish_ref" class="wish-ref"></div>
+        <div><textarea type="text" name="wish_note" class="wish-note">Примечание</textarea></div>
+        <div><label class="wish-image-label">Изображение:</label></div>
+        <div><input type="file" required name="wish_image" class="wish-image"></div>
+        <div><button type="submit" class="wish-createedit-submit">Создать</button></div>
+    </form>
+</div>
+
+{% for wish in wishes %}
+<div class="wishes-list">
+    {% if wish.image %}
+    <div><img src="{{ wish.image.url }}" class="wishlist-image-out"></div>
+    {% endif %}
+    <div ><a href="{% url 'WishDetails' wish.id %}" class="wishlist-ref-out">{{ wish.name }}</a></div>
+    <div>
+        <form action="{% url 'WishDelete' wish.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <button type="submit" class="wish-delete">Удалить</button>
+        </form>
+    </div>
+</div>
+{% endfor %}

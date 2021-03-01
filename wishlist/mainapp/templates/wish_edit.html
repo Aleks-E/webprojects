@@ -1,0 +1,31 @@
+{% load static %}
+<body>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</body>
+
+<form action="{% url 'WishList' %}" method="get" class="back-to-home">{% csrf_token %}
+    <button type="submit">Главная</button>
+</form>
+
+<form action="{% url 'WishDetails' wish.id %}" method="get" class="back-to-wish-detail">{% csrf_token %}
+    <button type="submit">Назад</button>
+</form>
+
+{% if wish.image%}
+<div class="wishedit-image-out"><img src="{{ wish.image.url }}"></div>
+{% endif %}
+
+<div class="wish-edit">
+    <form action="{% url 'WishEdit' wish.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div><label class="wish-name-label">Наименование:</label></div>
+        <div><input type="text" placeholder="Наименование" name="wish_name" class="wish-name" value="{{ wish.name }}"></div>
+        <div><input type="number" placeholder="Цена" min="0" name="wish_price" class="wish-price" value="{{ wish.price }}"><label class="wish-price-label">Цена, руб.</label></div>
+        <div><label class="wish-ref-label">Ссылка:</label></div>
+        <div><input type="text" placeholder="Ссылка" name="wish_ref" class="wish-ref" value="{{ wish.ref }}"></div>
+        <div><label class="wish-note-label">Примечание:</label></div>
+        <div><textarea type="text" name="wish_note" class="wish-note" value="{{ wish.note }}">{{ wish.note }}</textarea></div>
+        <div><label class="wish-image-label">Изображение:</label></div>
+        <div><input type="file" name="wish_image" class="wish-image"></div>
+        <div><button type="submit" class="wish-createedit-submit">Сохранить</button></div>
+    </form>
+</div>
